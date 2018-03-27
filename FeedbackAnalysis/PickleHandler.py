@@ -6,7 +6,7 @@ class PickleHandler:
 
         saveClassifierFile = open(fileName, format)
         pickle.dump(classfier, saveClassifierFile)
-        saveClassifier.close()
+        saveClassifierFile.close()
 
     def Load(self, fileName, format):
 
