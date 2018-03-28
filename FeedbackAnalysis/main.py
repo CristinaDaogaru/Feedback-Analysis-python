@@ -1,9 +1,17 @@
+import random
+
+import FeatureSet
+import WordTokenizer
+from Helpers.CollectionIntervalSplitter import CollectionIntervalSplitter
 from Helpers.DocumentHandler import DocumentHandler
+from Helpers.WordsHandler import WordsHandler
 
 
 def main():
 
     # TODO : Refactor DocumentHandler class based on the fallowing code
+
+    # REGION Get Documents
 
     documentHandler = DocumentHandler()
 
@@ -21,6 +29,48 @@ def main():
     for r in negativeDocumentsReview.split('\n'):
         documents.append((r, "neg"))
 
+    # END REGION
+
+
+    # REGION Get all words
+
+    wordTokenizer = WordTokenizer()
+    allWords = []
+
+    allWords.append(wordTokenizer.GetWords(positiveDocumentsReview))
+    allWords.append(wordTokenizer.GetWords(negativeDocumentsReview))
+
+    # END REGION
+
+
+    # REGION Compute Words Frequancy
+
+    wordHandler = WordsHandler()
+    allWords = wordHandler.FrequancyDistributions(allWords)
+
+    # END REGION
+
+
+    # REGION Create feature sets
+
+    featureSet = FeatureSet()
+
+    featureSets = featureSet.Create(allWords, 5000, documents)
+    random.shuffle(featureSets)
+
+    collectionIntervalSplitter = CollectionIntervalSplitter()
+
+    # We'll train against the first 10000 featureset
+    # and test against the second 10000 featureset
+
+    trainingSet = collectionIntervalSplitter.FirstElements(featureSets, 10000)
+    testingSet = collectionIntervalSplitter.LastElements(featureSets, 10000)
+
+
+    # END REGION
+
+
+    
 
 
 if __name__ == '__main__':
