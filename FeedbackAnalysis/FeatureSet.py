@@ -4,7 +4,7 @@ import WordTokenizer
 class FetureSet:
 
 
-    def Create(self, allWords, number, documents, ):
+    def Create(self, allWords, number, documents):
 
         wordFeatures = list(allWords.keys())[:number]
         featuresets = [(self.FindFeatures(rev, wordFeatures), category) for (rev, category) in documents]
@@ -12,7 +12,7 @@ class FetureSet:
         return featuresets
 
 
-    def FindFeatures(self, document, wordFeatures ):
+    def FindFeatures(self, document, wordFeatures):
 
 
         ########### Commented because of new files training data set #################
