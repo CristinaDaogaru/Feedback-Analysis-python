@@ -1,7 +1,8 @@
 import random
-
 import FeatureSet
-import WordTokenizer
+from Helpers.FileReader import FileReader
+from WordTokenizer import WordTokenizer
+from Classifiers.NltKNaiveBayesClassifier import NltKNaiveBayesClassifier
 from Helpers.CollectionIntervalSplitter import CollectionIntervalSplitter
 from Helpers.DocumentHandler import DocumentHandler
 from Helpers.WordsHandler import WordsHandler
@@ -18,16 +19,16 @@ def main():
     shortPositiveReviewsPath = "short_reviews/positive.txt"
     shortNegativeReviewsPath = "short_reviews/negative.txt"
 
-    positiveDocumentsReview = documentHandler.GetPositiveDocumets(shortPositiveReviewsPath, "r")
-    negativeDocumentsReview = documentHandler.GetNegativeDocumets(shortNegativeReviewsPath, "r")
+    positiveReviews = FileReader(shortPositiveReviewsPath, "r")
+    negativeReviews = FileReader(shortNegativeReviewsPath, "r")
+
+    positiveDocumentsReview = documentHandler.GetPositiveDocumets(positiveReviews)
+    negativeDocumentsReview = documentHandler.GetNegativeDocumets(negativeReviews)
+
 
     documents = []
-
-    for r in positiveDocumentsReview.split('\n'):
-        documents.append((r, "pos"))
-
-    for r in negativeDocumentsReview.split('\n'):
-        documents.append((r, "neg"))
+    documents.append(positiveDocumentsReview)
+    documents.append(negativeDocumentsReview)
 
     # END REGION
 
@@ -37,8 +38,8 @@ def main():
     wordTokenizer = WordTokenizer()
     allWords = []
 
-    allWords.append(wordTokenizer.GetWords(positiveDocumentsReview))
-    allWords.append(wordTokenizer.GetWords(negativeDocumentsReview))
+    allWords.append(wordTokenizer.GetWords(positiveDocumentsReview, True))
+    allWords.append(wordTokenizer.GetWords(negativeDocumentsReview, True))
 
     # END REGION
 
@@ -70,7 +71,17 @@ def main():
     # END REGION
 
 
-    
+    # REGION Print the NLTK Naive Bayes classifier accuracy
+
+    nltkNaiveBayesClassifier = NltKNaiveBayesClassifier()
+    nltkNaiveBayesClassifier.Train(trainingSet)
+
+    print("Original Naive Bayes Algorithm accuracy percent: ", (nltkNaiveBayesClassifier.Accuracy(testingSet)))
+
+    # show the most informative 15 features
+    nltkNaiveBayesClassifier.ShowMostInformativeFeatures(15)
+
+    # END REGION
 
 
 if __name__ == '__main__':
