@@ -10,6 +10,11 @@ class MultinomialNaiveBayesClassifier:
         self.classifier = SklearnClassifier(MultinomialNB())
 
 
+    def GetClassifier(self):
+
+        return self.classifier
+
+
     def Train(self, trainingSet):
 
         self.classifier.train(trainingSet)

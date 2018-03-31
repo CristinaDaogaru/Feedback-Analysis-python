@@ -10,6 +10,11 @@ class LinearSVCClassifier:
         self.classifier = SklearnClassifier(LinearSVC())
 
 
+    def GetClassifier(self):
+
+        return self.classifier
+
+
     def Train(self, trainingSet):
 
         self.classifier.train(trainingSet)
