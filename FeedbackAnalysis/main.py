@@ -1,11 +1,22 @@
 import random
-import FeatureSet
+import nltk
+
+from Classifiers.MultinomialNaiveBayesClassifier import MultinomialNaiveBayesClassifier
+from FeatureSet import FeatureSet
 from Helpers.FileReader import FileReader
 from WordTokenizer import WordTokenizer
-from Classifiers.NltKNaiveBayesClassifier import NltKNaiveBayesClassifier
 from Helpers.CollectionIntervalSplitter import CollectionIntervalSplitter
 from Helpers.DocumentHandler import DocumentHandler
 from Helpers.WordsHandler import WordsHandler
+
+from Classifiers.NltKNaiveBayesClassifier import NltKNaiveBayesClassifier
+from Classifiers.MultinomialNaiveBayesClassifier import MultinomialNaiveBayesClassifier
+from Classifiers.VoteClassifier import VoteClassifier
+from Classifiers.SGDClassifier import SGDClassifier
+from Classifiers.BernoulliNaiveBayesClassifier import BernoulliNaiveBayesClassifier
+from Classifiers.LinearSVCClassifier import LinearSVCClassifier
+from Classifiers.NuSVCClassifier import NuSVCClassifier
+from Classifiers.LogisticRegressionClassifier import LogisticRegressionClassifier
 
 
 def main():
@@ -19,16 +30,19 @@ def main():
     shortPositiveReviewsPath = "short_reviews/positive.txt"
     shortNegativeReviewsPath = "short_reviews/negative.txt"
 
-    positiveReviews = FileReader(shortPositiveReviewsPath, "r")
-    negativeReviews = FileReader(shortNegativeReviewsPath, "r")
+
+    fileReader = FileReader()
+
+    positiveReviews = fileReader.ReadToEnd(shortPositiveReviewsPath, "r")
+    negativeReviews = fileReader.ReadToEnd(shortNegativeReviewsPath, "r")
 
     positiveDocumentsReview = documentHandler.GetPositiveDocumets(positiveReviews)
     negativeDocumentsReview = documentHandler.GetNegativeDocumets(negativeReviews)
 
 
     documents = []
-    documents.append(positiveDocumentsReview)
-    documents.append(negativeDocumentsReview)
+    documents = documents + positiveDocumentsReview
+    documents = documents + negativeDocumentsReview
 
     # END REGION
 
@@ -38,8 +52,8 @@ def main():
     wordTokenizer = WordTokenizer()
     allWords = []
 
-    allWords.append(wordTokenizer.GetWords(positiveDocumentsReview, True))
-    allWords.append(wordTokenizer.GetWords(negativeDocumentsReview, True))
+    allWords = allWords + wordTokenizer.GetWords(positiveReviews, True)
+    allWords = allWords + wordTokenizer.GetWords(negativeReviews, True)
 
     # END REGION
 
@@ -54,15 +68,16 @@ def main():
 
     # REGION Create feature sets
 
-    featureSet = FeatureSet()
+    word_features = list(allWords.keys())[:5000]
+    featureSet = FeatureSet(word_features)
 
-    featureSets = featureSet.Create(allWords, 5000, documents)
+    featureSets = featureSet.Create(documents)
     random.shuffle(featureSets)
-
-    collectionIntervalSplitter = CollectionIntervalSplitter()
 
     # We'll train against the first 10000 featureset
     # and test against the second 10000 featureset
+
+    collectionIntervalSplitter = CollectionIntervalSplitter()
 
     trainingSet = collectionIntervalSplitter.FirstElements(featureSets, 10000)
     testingSet = collectionIntervalSplitter.LastElements(featureSets, 10000)
@@ -76,10 +91,85 @@ def main():
     nltkNaiveBayesClassifier = NltKNaiveBayesClassifier()
     nltkNaiveBayesClassifier.Train(trainingSet)
 
-    print("Original Naive Bayes Algorithm accuracy percent: ", (nltkNaiveBayesClassifier.Accuracy(testingSet)))
-
     # show the most informative 15 features
     nltkNaiveBayesClassifier.ShowMostInformativeFeatures(15)
+
+    print("Original Naive Bayes Algorithm accuracy percent: ", (nltkNaiveBayesClassifier.Accuracy(testingSet)))
+
+
+    # END REGION
+
+
+    # REGION Print the Multinomial Naive Bayes classifier accuracy
+
+    multinomialNaiveBayesClassifie = MultinomialNaiveBayesClassifier()
+    multinomialNaiveBayesClassifie.Train(trainingSet)
+
+    print("Multinomial Naive Bayes classifier accuracy percent: ", (multinomialNaiveBayesClassifie.Accuracy(testingSet)))
+
+    # END REGION
+
+    # REGION Print the Bernoulli Naive Bayes classifier accuracy
+
+    bernoulliNaiveBayesClassifie = MultinomialNaiveBayesClassifier()
+    bernoulliNaiveBayesClassifie.Train(trainingSet)
+
+    print("Bernouli Naive Bayes classifier accuracy percent: ", (bernoulliNaiveBayesClassifie.Accuracy(testingSet)))
+
+    # END REGION
+
+
+    # REGION Print the Logistic Regression classifier accuracy
+
+    logisticRegressionClassifie = MultinomialNaiveBayesClassifier()
+    logisticRegressionClassifie.Train(trainingSet)
+
+    print("Logistic Regression classifier accuracy percent: ", (logisticRegressionClassifie.Accuracy(testingSet)))
+
+    # END REGION
+
+
+    # REGION Print the SGD classifier accuracy
+
+    SGDClassifie = MultinomialNaiveBayesClassifier()
+    SGDClassifie.Train(trainingSet)
+
+    print("SGD classifier accuracy percent: ", (SGDClassifie.Accuracy(testingSet)))
+
+    # END REGION
+
+
+    # REGION Print the Linear SVC classifier accuracy
+
+    linearSVCClassifier = LinearSVCClassifier()
+    linearSVCClassifier.Train(trainingSet)
+
+    print("Linear SVC classifier accuracy percent: ", (linearSVCClassifier.Accuracy(testingSet)))
+
+    # END REGION
+
+
+    # REGION Print the NuSVC classifier accuracy
+
+    nuSVCClassifier = NuSVCClassifier()
+    nuSVCClassifier.Train(trainingSet)
+
+    print("NuSVC classifier accuracy percent: ", (nuSVCClassifier.Accuracy(testingSet)))
+
+    # END REGION
+
+
+    # REGION Print the Voted classifier accuracy
+
+    voteClassifier = VoteClassifier(nltkNaiveBayesClassifier.GetClassifier(),
+                                    multinomialNaiveBayesClassifie.GetClassifier(),
+                                    bernoulliNaiveBayesClassifie.GetClassifier(),
+                                    logisticRegressionClassifie.GetClassifier(),
+                                    SGDClassifie.GetClassifier(),
+                                    linearSVCClassifier.GetClassifier(),
+                                    nuSVCClassifier.GetClassifier())
+
+    print("Vote classifier accuracy percent: ", (voteClassifier.Accuracy(testingSet)))
 
     # END REGION
 
