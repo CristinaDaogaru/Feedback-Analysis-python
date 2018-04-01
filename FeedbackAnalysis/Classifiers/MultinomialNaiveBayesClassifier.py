@@ -5,9 +5,9 @@ from sklearn.naive_bayes import MultinomialNB
 
 class MultinomialNaiveBayesClassifier:
 
-    def __init__(self):
+    def __init__(self, classifier = SklearnClassifier(MultinomialNB())):
 
-        self.classifier = SklearnClassifier(MultinomialNB())
+        self.classifier = classifier
 
 
     def GetClassifier(self):

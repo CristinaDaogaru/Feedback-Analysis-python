@@ -5,9 +5,9 @@ from sklearn.linear_model import SGDClassifier
 
 class SGDClassifier:
 
-    def __init__(self):
+    def __init__(self, classifier = SklearnClassifier(SGDClassifier())):
 
-        self.classifier = SklearnClassifier(SGDClassifier())
+        self.classifier = classifier
 
 
     def GetClassifier(self):

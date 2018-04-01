@@ -5,9 +5,9 @@ from sklearn.svm import NuSVC
 
 class NuSVCClassifier:
 
-    def __init__(self):
+    def __init__(self, classifier = SklearnClassifier(NuSVC())):
 
-        self.classifier = SklearnClassifier(NuSVC())
+        self.classifier = classifier
 
 
     def GetClassifier(self):

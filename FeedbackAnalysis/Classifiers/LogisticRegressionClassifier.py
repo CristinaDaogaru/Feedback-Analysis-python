@@ -5,9 +5,9 @@ from sklearn.linear_model import LogisticRegression
 
 class LogisticRegressionClassifier:
 
-    def __init__(self):
+    def __init__(self, classifier = SklearnClassifier(LogisticRegression())):
 
-        self.classifier = SklearnClassifier(LogisticRegression())
+        self.classifier = classifier
 
 
     def GetClassifier(self):
