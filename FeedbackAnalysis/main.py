@@ -8,6 +8,7 @@ from WordTokenizer import WordTokenizer
 from Helpers.CollectionIntervalSplitter import CollectionIntervalSplitter
 from Helpers.DocumentHandler import DocumentHandler
 from Helpers.WordsHandler import WordsHandler
+from Helpers.PickleHandler import PickleHandler
 
 from Classifiers.NltKNaiveBayesClassifier import NltKNaiveBayesClassifier
 from Classifiers.MultinomialNaiveBayesClassifier import MultinomialNaiveBayesClassifier
@@ -25,7 +26,6 @@ def main():
 
     # REGION Get Documents
 
-    documentHandler = DocumentHandler()
 
     shortPositiveReviewsPath = "short_reviews/positive.txt"
     shortNegativeReviewsPath = "short_reviews/negative.txt"
@@ -36,13 +36,28 @@ def main():
     positiveReviews = fileReader.ReadToEnd(shortPositiveReviewsPath, "r")
     negativeReviews = fileReader.ReadToEnd(shortNegativeReviewsPath, "r")
 
-    positiveDocumentsReview = documentHandler.GetPositiveDocumets(positiveReviews)
-    negativeDocumentsReview = documentHandler.GetNegativeDocumets(negativeReviews)
+
+    # Commented this because the documents were pickeled
 
 
-    documents = []
-    documents = documents + positiveDocumentsReview
-    documents = documents + negativeDocumentsReview
+    # documentHandler = DocumentHandler()
+    #
+    # positiveDocumentsReview = documentHandler.GetPositiveDocumets(positiveReviews)
+    # negativeDocumentsReview = documentHandler.GetNegativeDocumets(negativeReviews)
+    #
+    #
+    # documents = []
+    # documents = documents + positiveDocumentsReview
+    # documents = documents + negativeDocumentsReview
+
+
+    # End commented this because the documents were pickeled
+
+
+    pickleHandler = PickleHandler()
+
+    #pickleHandler.Save(documents, "PickleFiles/document.pickle", "wb")
+    documents = pickleHandler.Load("PickleFiles/document.pickle", "rb")
 
     # END REGION
 
