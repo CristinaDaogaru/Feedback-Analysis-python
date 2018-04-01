@@ -10,6 +10,11 @@ class SGDClassifier:
         self.classifier = SklearnClassifier(SGDClassifier())
 
 
+    def GetClassifier(self):
+
+        return self.classifier
+
+
     def Train(self, trainingSet):
 
         self.classifier.train(trainingSet)

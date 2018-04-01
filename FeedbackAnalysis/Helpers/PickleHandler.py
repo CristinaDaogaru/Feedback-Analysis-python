@@ -2,18 +2,19 @@ import pickle
 
 class PickleHandler:
 
-    def Save(self, classfier, fileName, format):
+    def Save(self, savedData, fileName, format):
 
-        saveClassifierFile = open(fileName, format)
-        pickle.dump(classfier, saveClassifierFile)
-        saveClassifierFile.close()
+        saveFile = open(fileName, format)
+        pickle.dump(savedData, saveFile)
+        saveFile.close()
+
 
     def Load(self, fileName, format):
 
-        loadClassifierFile = open(fileName, format)
-        classifier = pickle.load(loadClassifierFile)
-        loadClassifierFile.close()
-        return classifier
+        loadFile = open(fileName, format)
+        loadedData = pickle.load(loadFile)
+        loadFile.close()
+        return loadedData
 
 
 

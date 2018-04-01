@@ -3,10 +3,12 @@ from nltk.tokenize import word_tokenize
 class WordTokenizer:
 
 
-    def GetWords(self, text, lowerCase):
+    # Return a list with all the words contained in the text parameter
+    # LowerCase parameter is optional and is by default true
+    def GetWords(self, text, lowerCase = True):
 
         all_words = []
-        words = word_tokenize(text)
+        words = self.WordTokenize(text)
 
         for w in words:
 
@@ -18,4 +20,7 @@ class WordTokenizer:
         return all_words
 
 
+    def WordTokenize(self, text):
+
+        return word_tokenize(text)
 

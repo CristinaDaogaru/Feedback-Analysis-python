@@ -12,39 +12,19 @@ class DocumentHandler:
         return documents
 
 
-    def GetDocuments(self, fileNamePositiveReviews, fileNameNegativeReviews, format):
-
-        positiveReviews = open(fileNamePositiveReviews, format).read()
-        negativeReviews = open(fileNameNegativeReviews, format).read()
+    def GetPositiveDocumets(self, reviews):
 
         documents = []
-
-        for review in positiveReviews.split('\n'):
-            documents.append((review, "pos"))
-
-        for review in negativeReviews.split('\n'):
-            documents.append((review, "neg"))
-
-        return documents
-
-
-    def GetPositiveDocumets(self, fileName, format):
-
-        positiveReviews = open(fileName, format).read()
-        documents = []
-
-        for review in positiveReviews.split('\n'):
+        for review in reviews.split('\n'):
             documents.append((review, "pos"))
 
         return documents
 
 
-    def GetNegativeDocumets(self, fileName, format):
+    def GetNegativeDocumets(self, reviews):
 
-        negativeReviews = open(fileName, format).read()
         documents = []
-
-        for review in negativeReviews.split('\n'):
+        for review in reviews.split('\n'):
             documents.append((review, "neg"))
 
         return documents

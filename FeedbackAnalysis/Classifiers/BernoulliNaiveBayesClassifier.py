@@ -3,11 +3,16 @@ from nltk.classify.scikitlearn import SklearnClassifier
 from sklearn.naive_bayes import BernoulliNB
 
 
-class MultinomialNaiveBayesClassifier:
+class BernoulliNaiveBayesClassifier:
 
     def __init__(self):
 
         self.classifier = SklearnClassifier(BernoulliNB())
+
+
+    def GetClassifier(self):
+
+        return self.classifier
 
 
     def Train(self, trainingSet):

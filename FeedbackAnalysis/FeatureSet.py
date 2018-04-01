@@ -1,19 +1,20 @@
-import WordTokenizer
+from WordTokenizer import WordTokenizer
 
 
-class FetureSet:
+class FeatureSet:
 
 
-    def Create(self, allWords, number, documents, ):
+    def __init__(self, wordFeatures):
 
-        wordFeatures = list(allWords.keys())[:number]
-        featuresets = [(self.FindFeatures(rev, wordFeatures), category) for (rev, category) in documents]
+        self.wordFeatures = wordFeatures
 
-        return featuresets
+    def Create(self, documents):
+
+        featureSets = [(self.FindFeatures(rev), category) for (rev, category) in documents]
+        return featureSets
 
 
-    def FindFeatures(self, document, wordFeatures ):
-
+    def FindFeatures(self, document):
 
         ########### Commented because of new files training data set #################
 
@@ -25,15 +26,15 @@ class FetureSet:
         #     words = set(document)
         # else:
 
-        words = WordTokenizer.GetWords(document, True)
+
+        wordTokenizer = WordTokenizer()
+        words = wordTokenizer.WordTokenize(document)
 
         features = {}
 
         # if the words w from the 3000 words appears in document then store true
         # store false otherwise
-        for w in wordFeatures:
+        for w in self.wordFeatures:
             features[w] = (w in words)
 
         return features
-
-
