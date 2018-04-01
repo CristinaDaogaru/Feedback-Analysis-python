@@ -12,15 +12,6 @@ class DocumentHandler:
         return documents
 
 
-    def GetDocuments(self, positiveReviews, negativeReviews):
-
-        documents = []
-        documents.append(self.GetPositiveDocumets(positiveReviews))
-        documents.append(self.GetNegativeDocumets(negativeReviews))
-
-        return documents
-
-
     def GetPositiveDocumets(self, reviews):
 
         documents = []
