@@ -1,24 +1,14 @@
 import random
-import nltk
 
-from Classifiers.MultinomialNaiveBayesClassifier import MultinomialNaiveBayesClassifier
-from FeatureSet import FeatureSet
-from Helpers.FileReader import FileReader
-from WordTokenizer import WordTokenizer
+from Sentiment import Sentiment
 from Helpers.CollectionIntervalSplitter import CollectionIntervalSplitter
-from Helpers.DocumentHandler import DocumentHandler
-from Helpers.WordsHandler import WordsHandler
 from Helpers.PickleHandler import PickleHandler
 
 from Classifiers.NltKNaiveBayesClassifier import NltKNaiveBayesClassifier
 from Classifiers.MultinomialNaiveBayesClassifier import MultinomialNaiveBayesClassifier
 from Classifiers.VoteClassifier import VoteClassifier
-from Classifiers.SGDClassifier import SGDClassifier
-from Classifiers.BernoulliNaiveBayesClassifier import BernoulliNaiveBayesClassifier
 from Classifiers.LinearSVCClassifier import LinearSVCClassifier
 from Classifiers.NuSVCClassifier import NuSVCClassifier
-from Classifiers.LogisticRegressionClassifier import LogisticRegressionClassifier
-
 
 def main():
 
@@ -129,6 +119,21 @@ def main():
 
     # END REGION
 
+
+    # REGION Classifie random input text
+    
+
+    wordFeatures = pickleHandler.Load("PickleFiles/wordFeatures.pickle", "rb")
+
+    sentiment = Sentiment(voteClassifier, wordFeatures)
+
+    print(sentiment.FindSentiment(
+        "This movie was awesome! The acting was great, plot was wonderful, and there were pythons...so yea!"))
+    print(sentiment.FindSentiment(
+        "This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10"))
+
+
+    # END REGION
 
 
 if __name__ == '__main__':
