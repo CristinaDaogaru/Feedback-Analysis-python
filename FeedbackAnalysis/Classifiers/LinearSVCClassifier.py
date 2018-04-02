@@ -5,9 +5,9 @@ from sklearn.svm import LinearSVC
 
 class LinearSVCClassifier:
 
-    def __init__(self):
+    def __init__(self, classifier = SklearnClassifier(LinearSVC())):
 
-        self.classifier = SklearnClassifier(LinearSVC())
+        self.classifier = classifier
 
 
     def GetClassifier(self):

@@ -21,11 +21,6 @@ class FeatureSet:
         # words = set(document)
 
         ########### End Commented because of new files training data set #################
-        #
-        # if type(document) is string:
-        #     words = set(document)
-        # else:
-
 
         wordTokenizer = WordTokenizer()
         words = wordTokenizer.WordTokenize(document)

@@ -4,6 +4,10 @@ from nltk.classify import ClassifierI
 
 class NltKNaiveBayesClassifier(ClassifierI):
 
+    def __init__(self, classifier = None):
+
+        self.classifier = classifier
+
     def GetClassifier(self):
 
         return self.classifier

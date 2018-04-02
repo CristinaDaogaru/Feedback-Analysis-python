@@ -5,9 +5,9 @@ from sklearn.naive_bayes import BernoulliNB
 
 class BernoulliNaiveBayesClassifier:
 
-    def __init__(self):
+    def __init__(self, classifier = SklearnClassifier(BernoulliNB())):
 
-        self.classifier = SklearnClassifier(BernoulliNB())
+        self.classifier = classifier
 
 
     def GetClassifier(self):
