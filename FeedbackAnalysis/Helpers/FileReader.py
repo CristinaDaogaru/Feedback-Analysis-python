@@ -7,3 +7,9 @@ class FileReader:
 
 
 
+    def ReadLines(self, filePath):
+
+        file = open(filePath, "r")
+        return list(file)
+
+
