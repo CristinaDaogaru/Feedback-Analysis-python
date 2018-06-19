@@ -31,11 +31,49 @@ positiveReviews = fileReader.ReadLines(shortPositiveReviewsPath)
 negativeReviews = fileReader.ReadLines(shortNegativeReviewsPath)
 
 
+positiveWords = []
+negativeWords = []
+
+
 for review in positiveReviews:
+    for word in review:
+        positiveWords += word
+
+for review in negativeReviews:
+    for word in review:
+        negativeWords += word
+
+
+positiveWordsSet = set(positiveWords)
+negativeWordsSet = set(negativeWords)
+
+newPositiveReviews = []
+newNegativeReviews = []
+
+for review in positiveReviews:
+    newSentence = ""
+    for word in review:
+        if( word in negativeWordsSet ):
+            newSentence += word + " "
+    newPositiveReviews.append(newSentence)
+
+
+for review in positiveReviews:
+    newSentence = ""
+    for word in review:
+        if (word in positiveWordsSet):
+            newSentence += word + " "
+    newNegativeReviews.append(newSentence)
+
+
+# Remove empty elements from the lists !!!
+
+
+for review in newPositiveReviews:
     training_data.append({"class": "positive", "sentence":review})
 
 
-for review in negativeReviews:
+for review in newNegativeReviews:
     training_data.append({"class":"negative", "sentence":review})
 
 
