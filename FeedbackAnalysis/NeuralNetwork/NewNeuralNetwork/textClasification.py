@@ -11,70 +11,74 @@ stemmer = LancasterStemmer()
 
 # 2 classes of training data
 training_data = []
-#training_data.append({"class":"positive", "sentence":"This is good"})
-#training_data.append({"class":"positive", "sentence":"Very nice"})
-#training_data.append({"class":"positive", "sentence":"I like it"})
-#training_data.append({"class":"positive", "sentence":"Better now"})
+training_data.append({"class":"positive", "sentence":"This is good"})
+training_data.append({"class":"positive", "sentence":"Very nice"})
+training_data.append({"class":"positive", "sentence":"I like it"})
+training_data.append({"class":"positive", "sentence":"Better now"})
 
-#training_data.append({"class":"negative", "sentence":"I don't like it"})
-#training_data.append({"class":"negative", "sentence":"Bad"})
-#training_data.append({"class":"negative", "sentence":"Very bad"})
-#training_data.append({"class":"negative", "sentence":"This is so bad"})
-
-
-shortPositiveReviewsPath = "../../short_reviews/positiveShort"
-shortNegativeReviewsPath = "../../short_reviews/negativeShort"
-
-fileReader = FileReader()
-
-positiveReviews = fileReader.ReadLines(shortPositiveReviewsPath)
-negativeReviews = fileReader.ReadLines(shortNegativeReviewsPath)
+training_data.append({"class":"negative", "sentence":"I don't like it"})
+training_data.append({"class":"negative", "sentence":"Bad"})
+training_data.append({"class":"negative", "sentence":"Very bad"})
+training_data.append({"class":"negative", "sentence":"This is so bad"})
 
 
-positiveWords = []
-negativeWords = []
 
 
-for review in positiveReviews:
-    for word in review:
-        positiveWords += word
-
-for review in negativeReviews:
-    for word in review:
-        negativeWords += word
 
 
-positiveWordsSet = set(positiveWords)
-negativeWordsSet = set(negativeWords)
-
-newPositiveReviews = []
-newNegativeReviews = []
-
-for review in positiveReviews:
-    newSentence = ""
-    for word in review:
-        if( word in negativeWordsSet ):
-            newSentence += word + " "
-    newPositiveReviews.append(newSentence)
-
-
-for review in positiveReviews:
-    newSentence = ""
-    for word in review:
-        if (word in positiveWordsSet):
-            newSentence += word + " "
-    newNegativeReviews.append(newSentence)
-
-
+# shortPositiveReviewsPath = "../../short_reviews/positiveShort"
+# shortNegativeReviewsPath = "../../short_reviews/negativeShort"
+#
+# fileReader = FileReader()
+#
+# positiveReviews = fileReader.ReadLines(shortPositiveReviewsPath)
+# negativeReviews = fileReader.ReadLines(shortNegativeReviewsPath)
+#
+#
+# positiveWords = []
+# negativeWords = []
+#
+#
+# for review in positiveReviews:
+#     for word in review:
+#         positiveWords += word
+#
+# for review in negativeReviews:
+#     for word in review:
+#         negativeWords += word
+#
+#
+# positiveWordsSet = set(positiveWords)
+# negativeWordsSet = set(negativeWords)
+#
+# newPositiveReviews = []
+# newNegativeReviews = []
+#
+# for review in positiveReviews:
+#     newSentence = ""
+#     for word in review:
+#         if( word in negativeWordsSet ):
+#             newSentence += word + " "
+#     newPositiveReviews.append(newSentence)
+#
+#
+# for review in positiveReviews:
+#     newSentence = ""
+#     for word in review:
+#         if (word in positiveWordsSet):
+#             newSentence += word + " "
+#     newNegativeReviews.append(newSentence)
+#
+#
 # Remove empty elements from the lists !!!
-
-
-for review in newPositiveReviews:
-    training_data.append({"class": "positive", "sentence":review})
-
-
-for review in newNegativeReviews:
-    training_data.append({"class":"negative", "sentence":review})
+#
+#
+# for review in newPositiveReviews:
+#     training_data.append({"class": "positive", "sentence":review})
+#
+#
+# for review in newNegativeReviews:
+#     training_data.append({"class":"negative", "sentence":review})
 
 
 #with open('data.txt') as json_file:
@@ -327,7 +331,7 @@ def classify(sentence, show_details=False):
     return return_results
 
 
-#classify("This movie was awesome!")
+classify("This movie was awesome!")
 classify("Good job")
 classify("this was a bad experience")
 classify("very nice movie")
@@ -343,6 +347,11 @@ print("\n\n")
 classify("This movie was awesome! The acting was great, plot was wonderful")
 
 classify("This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10")
+
+classify("This is good")
+
+classify("This is not good")
+
 
 
 print("\n\nFinish")
