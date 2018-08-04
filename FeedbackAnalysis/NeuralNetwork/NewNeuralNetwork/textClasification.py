@@ -19,70 +19,53 @@ training_data.append({"class":"positive", "sentence":"Better now"})
 training_data.append({"class":"negative", "sentence":"I don't like it"})
 training_data.append({"class":"negative", "sentence":"Bad"})
 training_data.append({"class":"negative", "sentence":"Very bad"})
-training_data.append({"class":"negative", "sentence":"This is so bad"})
+training_data.append({"class":"negative", "sentence":"This is not good"})
+
+
+# Create data training with positive and negative words
+
+shortPositiveReviewsPath = "../../PositiveNegativeWords/positive-words.txt"
+shortNegativeReviewsPath = "../../PositiveNegativeWords/negative-words.txt"
+
+
+fileReader = FileReader()
+
+positiveWords = fileReader.ReadLines(shortPositiveReviewsPath)
+negativeWords = fileReader.ReadLines(shortNegativeReviewsPath)
+
+
+for index in range(0, 250):
+    training_data.append({"class": "positive", "sentence": positiveWords[index]})
+
+
+for index in range(0, 250):
+    training_data.append({"class": "negative", "sentence": negativeWords[index]})
 
 
 
+# Create data training with positive and negative sentences
+
+shortPositiveReviewsPath = "../../short_reviews/positiveShort"
+shortNegativeReviewsPath = "../../short_reviews/negativeShort"
+
+fileReader = FileReader()
+
+positiveWords = fileReader.ReadLines(shortPositiveReviewsPath)
+negativeWords = fileReader.ReadLines(shortNegativeReviewsPath)
 
 
 
-# shortPositiveReviewsPath = "../../short_reviews/positiveShort"
-# shortNegativeReviewsPath = "../../short_reviews/negativeShort"
-#
-# fileReader = FileReader()
-#
-# positiveReviews = fileReader.ReadLines(shortPositiveReviewsPath)
-# negativeReviews = fileReader.ReadLines(shortNegativeReviewsPath)
-#
-#
-# positiveWords = []
-# negativeWords = []
-#
-#
-# for review in positiveReviews:
-#     for word in review:
-#         positiveWords += word
-#
-# for review in negativeReviews:
-#     for word in review:
-#         negativeWords += word
-#
-#
-# positiveWordsSet = set(positiveWords)
-# negativeWordsSet = set(negativeWords)
-#
-# newPositiveReviews = []
-# newNegativeReviews = []
-#
-# for review in positiveReviews:
-#     newSentence = ""
-#     for word in review:
-#         if( word in negativeWordsSet ):
-#             newSentence += word + " "
-#     newPositiveReviews.append(newSentence)
-#
-#
-# for review in positiveReviews:
-#     newSentence = ""
-#     for word in review:
-#         if (word in positiveWordsSet):
-#             newSentence += word + " "
-#     newNegativeReviews.append(newSentence)
-#
-#
-# Remove empty elements from the lists !!!
-#
-#
-# for review in newPositiveReviews:
-#     training_data.append({"class": "positive", "sentence":review})
-#
-#
-# for review in newNegativeReviews:
-#     training_data.append({"class":"negative", "sentence":review})
+for index in range(0, 250):
+    training_data.append({"class": "positive", "sentence": positiveWords[index]})
 
 
-#with open('data.txt') as json_file:
-#    training_data = json.load(json_file)
+for index in range(0, 250):
+    training_data.append({"class": "negative", "sentence": negativeWords[index]})
+
+
+
+# with open('synapses.json') as json_file:
+#     training_data = json.load(json_file)
 
 print("%s sentences in training data" % len(training_data))
 
@@ -91,7 +74,7 @@ print("%s sentences in training data" % len(training_data))
 words = []
 classes = []
 documents = []
-ignore_words = ['?']
+ignore_words = ['?', '!', '.', ',', '@', '#', '^', '&', '*', '(', ')', '_', '=', '<', '>', '|']
 
 # loop through each sentence in our training data
 for pattern in training_data:
@@ -147,8 +130,8 @@ for doc in documents:
     output_row[classes.index(doc[1])] = 1
     output.append(output_row)
 
-print ("# words", len(words))
-print ("# classes", len(classes))
+print("# words", len(words))
+print("# classes", len(classes))
 
 # sample training/output
 i = 0
@@ -245,7 +228,7 @@ def train(X, y, hidden_neurons=10, alpha=1, epochs=50000, dropout=False, dropout
         # how much did we miss the target value?
         layer_2_error = y - layer_2
 
-        if (j % 10) == 0 and j > 5:
+        if (j % 10000) == 0 and j > 5000:
             # if this 10k iteration's error is greater than the last iteration, break out
             if np.mean(np.abs(layer_2_error)) < last_mean_error:
                 print("delta after " + str(j) + " iterations:" + str(np.mean(np.abs(layer_2_error))))
@@ -301,7 +284,7 @@ y = np.array(output)
 
 start_time = time.time()
 
-train(X, y, hidden_neurons=500, alpha=0.1, epochs=100, dropout=False, dropout_percent=0.2)
+train(X, y, hidden_neurons=10, alpha=0.1, epochs=1000, dropout=True, dropout_percent=0.2)
 
 elapsed_time = time.time() - start_time
 print("processing time:", elapsed_time, "seconds")
@@ -316,10 +299,12 @@ synapse_file = 'synapses.json'
 synapse_0 = []
 synapse_1 = []
 
+
 with open(synapse_file) as data_file:
     synapse = json.load(data_file)
     synapse_0 = np.asarray(synapse['synapse0'])
     synapse_1 = np.asarray(synapse['synapse1'])
+
 
 def classify(sentence, show_details=False):
     results = think(sentence, show_details)
@@ -365,3 +350,75 @@ print("\n\nFinish")
 
 #if __name__ == "__main__":
     #main()
+
+
+
+
+
+
+
+
+
+
+
+
+# shortPositiveReviewsPath = "../../short_reviews/positiveShort"
+# shortNegativeReviewsPath = "../../short_reviews/negativeShort"
+#
+# fileReader = FileReader()
+#
+# positiveReviews = fileReader.ReadLines(shortPositiveReviewsPath)
+# negativeReviews = fileReader.ReadLines(shortNegativeReviewsPath)
+#
+#
+# positiveWords = []
+# negativeWords = []
+#
+#
+# for review in positiveReviews:
+#     for word in review:
+#         positiveWords += word
+#
+# for review in negativeReviews:
+#     for word in review:
+#         negativeWords += word
+#
+#
+# positiveWordsSet = set(positiveWords)
+# negativeWordsSet = set(negativeWords)
+#
+# newPositiveReviews = []
+# newNegativeReviews = []
+#
+# for review in positiveReviews:
+#     newSentence = ""
+#     for word in review:
+#         if( word in negativeWordsSet ):
+#             newSentence += word + " "
+#     newPositiveReviews.append(newSentence)
+#
+#
+# for review in positiveReviews:
+#     newSentence = ""
+#     for word in review:
+#         if (word in positiveWordsSet):
+#             newSentence += word + " "
+#     newNegativeReviews.append(newSentence)
+#
+#
+# Remove empty elements from the lists !!!
+#
+#
+# for review in newPositiveReviews:
+#     training_data.append({"class": "positive", "sentence":review})
+#
+#
+# for review in newNegativeReviews:
+#     training_data.append({"class":"negative", "sentence":review})
+
+
+#with open('data.txt') as json_file:
+#    training_data = json.load(json_file)
+
+
+
