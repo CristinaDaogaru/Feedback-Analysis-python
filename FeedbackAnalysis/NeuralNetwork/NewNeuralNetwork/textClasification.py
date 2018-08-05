@@ -6,62 +6,43 @@ import json
 import datetime
 
 from Helpers.FileReader import FileReader
+from Helpers.TrainingDataCreator import TrainingDataCreator
 
 stemmer = LancasterStemmer()
 
-# 2 classes of training data
-training_data = []
-training_data.append({"class":"positive", "sentence":"This is good"})
-training_data.append({"class":"positive", "sentence":"Very nice"})
-training_data.append({"class":"positive", "sentence":"I like it"})
-training_data.append({"class":"positive", "sentence":"Better now"})
-
-training_data.append({"class":"negative", "sentence":"I don't like it"})
-training_data.append({"class":"negative", "sentence":"Bad"})
-training_data.append({"class":"negative", "sentence":"Very bad"})
-training_data.append({"class":"negative", "sentence":"This is not good"})
-
-
 # Create data training with positive and negative words
 
-shortPositiveReviewsPath = "../../PositiveNegativeWords/positive-words.txt"
-shortNegativeReviewsPath = "../../PositiveNegativeWords/negative-words.txt"
+positiveWordsFilePath = "../../PositiveNegativeWords/positive-words.txt"
+negativeWordsFilePath = "../../PositiveNegativeWords/negative-words.txt"
 
-
-fileReader = FileReader()
-
-positiveWords = fileReader.ReadLines(shortPositiveReviewsPath)
-negativeWords = fileReader.ReadLines(shortNegativeReviewsPath)
-
-
-for index in range(0, 250):
-    training_data.append({"class": "positive", "sentence": positiveWords[index]})
-
-
-for index in range(0, 250):
-    training_data.append({"class": "negative", "sentence": negativeWords[index]})
-
-
+positiveWordsTrainingData = TrainingDataCreator.Create(positiveWordsFilePath, "positive", 1000)
+negativeWordsTrainingData = TrainingDataCreator.Create(negativeWordsFilePath, "negative", 1000)
 
 # Create data training with positive and negative sentences
 
-shortPositiveReviewsPath = "../../short_reviews/positiveShort"
-shortNegativeReviewsPath = "../../short_reviews/negativeShort"
+positiveReviewsFilePath = "../../short_reviews/positiveShort"
+negativeReviewsFilePath = "../../short_reviews/negativeShort"
 
-fileReader = FileReader()
+positiveReviewsTrainingData = TrainingDataCreator.Create(positiveReviewsFilePath, "positive", 1000)
+negativeReviewsTrainingData = TrainingDataCreator.Create(negativeReviewsFilePath, "negative", 1000)
 
-positiveWords = fileReader.ReadLines(shortPositiveReviewsPath)
-negativeWords = fileReader.ReadLines(shortNegativeReviewsPath)
+# 2 classes of training data
+training_data = []
+training_data.append({"class": "positive", "sentence": "This is good"})
+training_data.append({"class": "positive", "sentence": "Very nice"})
+training_data.append({"class": "positive", "sentence": "I like it"})
+training_data.append({"class": "positive", "sentence": "Better now"})
 
+training_data += positiveWordsTrainingData
+training_data += positiveReviewsTrainingData
 
+training_data.append({"class": "negative", "sentence": "I don't like it"})
+training_data.append({"class": "negative", "sentence": "Bad"})
+training_data.append({"class": "negative", "sentence": "Very bad"})
+training_data.append({"class": "negative", "sentence": "This is not good"})
 
-for index in range(0, 250):
-    training_data.append({"class": "positive", "sentence": positiveWords[index]})
-
-
-for index in range(0, 250):
-    training_data.append({"class": "negative", "sentence": negativeWords[index]})
-
+training_data += negativeWordsTrainingData
+training_data += negativeReviewsTrainingData
 
 
 # with open('synapses.json') as json_file:
@@ -69,8 +50,7 @@ for index in range(0, 250):
 
 print("%s sentences in training data" % len(training_data))
 
-
-#in 3
+# in 3
 words = []
 classes = []
 documents = []
@@ -103,9 +83,7 @@ print(len(documents), "documents")
 print(len(classes), "classes", classes)
 print(len(words), "unique stemmed words", words)
 
-
-
-#in 4
+# in 4
 # create our training data
 training = []
 output = []
@@ -140,8 +118,7 @@ print([stemmer.stem(word.lower()) for word in w])
 print(training[i])
 print(output[i])
 
-
-#in 5
+# in 5
 import numpy as np
 import time
 
@@ -193,12 +170,13 @@ def think(sentence, show_details=False):
     l2 = sigmoid(np.dot(l1, synapse_1))
     return l2
 
-#in 6
+
+# in 6
 
 # ANN and Gradient Descent code from https://iamtrask.github.io//2015/07/27/python-network-part2/
 def train(X, y, hidden_neurons=10, alpha=1, epochs=50000, dropout=False, dropout_percent=0.5):
     print("Training with %s neurons, alpha:%s, dropout:%s %s" % (
-    hidden_neurons, str(alpha), dropout, dropout_percent if dropout else ''))
+        hidden_neurons, str(alpha), dropout, dropout_percent if dropout else ''))
     print("Input matrix: %sx%s    Output matrix: %sx%s" % (len(X), len(X[0]), 1, len(classes)))
     np.random.seed(1)
 
@@ -221,7 +199,7 @@ def train(X, y, hidden_neurons=10, alpha=1, epochs=50000, dropout=False, dropout
 
         if (dropout):
             layer_1 *= np.random.binomial([np.ones((len(X), hidden_neurons))], 1 - dropout_percent)[0] * (
-                        1.0 / (1 - dropout_percent))
+                    1.0 / (1 - dropout_percent))
 
         layer_2 = sigmoid(np.dot(layer_1, synapse_1))
 
@@ -278,7 +256,7 @@ def train(X, y, hidden_neurons=10, alpha=1, epochs=50000, dropout=False, dropout
     print("saved synapses to:", synapse_file)
 
 
-#in 9
+# in 9
 X = np.array(training)
 y = np.array(output)
 
@@ -289,8 +267,7 @@ train(X, y, hidden_neurons=10, alpha=0.1, epochs=1000, dropout=True, dropout_per
 elapsed_time = time.time() - start_time
 print("processing time:", elapsed_time, "seconds")
 
-
-#in 10
+# in 10
 # probability threshold
 ERROR_THRESHOLD = 0.2
 # load our calculated synapse values
@@ -298,7 +275,6 @@ synapse_file = 'synapses.json'
 
 synapse_0 = []
 synapse_1 = []
-
 
 with open(synapse_file) as data_file:
     synapse = json.load(data_file)
@@ -325,100 +301,15 @@ classify("good enough")
 print("\n\n")
 classify("you make my day", show_details=True)
 
-
 print("\n\n")
-
 
 classify("This movie was awesome! The acting was great, plot was wonderful")
 
-classify("This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10")
+classify(
+    "This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10")
 
 classify("This is good")
 
 classify("This is not good")
 
-
-
 print("\n\nFinish")
-
-
-
-
-#def main():
-
-    # my code here
-
-#if __name__ == "__main__":
-    #main()
-
-
-
-
-
-
-
-
-
-
-
-
-# shortPositiveReviewsPath = "../../short_reviews/positiveShort"
-# shortNegativeReviewsPath = "../../short_reviews/negativeShort"
-#
-# fileReader = FileReader()
-#
-# positiveReviews = fileReader.ReadLines(shortPositiveReviewsPath)
-# negativeReviews = fileReader.ReadLines(shortNegativeReviewsPath)
-#
-#
-# positiveWords = []
-# negativeWords = []
-#
-#
-# for review in positiveReviews:
-#     for word in review:
-#         positiveWords += word
-#
-# for review in negativeReviews:
-#     for word in review:
-#         negativeWords += word
-#
-#
-# positiveWordsSet = set(positiveWords)
-# negativeWordsSet = set(negativeWords)
-#
-# newPositiveReviews = []
-# newNegativeReviews = []
-#
-# for review in positiveReviews:
-#     newSentence = ""
-#     for word in review:
-#         if( word in negativeWordsSet ):
-#             newSentence += word + " "
-#     newPositiveReviews.append(newSentence)
-#
-#
-# for review in positiveReviews:
-#     newSentence = ""
-#     for word in review:
-#         if (word in positiveWordsSet):
-#             newSentence += word + " "
-#     newNegativeReviews.append(newSentence)
-#
-#
-# Remove empty elements from the lists !!!
-#
-#
-# for review in newPositiveReviews:
-#     training_data.append({"class": "positive", "sentence":review})
-#
-#
-# for review in newNegativeReviews:
-#     training_data.append({"class":"negative", "sentence":review})
-
-
-#with open('data.txt') as json_file:
-#    training_data = json.load(json_file)
-
-
-
