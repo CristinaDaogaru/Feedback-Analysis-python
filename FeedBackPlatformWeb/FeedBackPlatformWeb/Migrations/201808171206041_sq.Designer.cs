@@ -7,13 +7,13 @@ namespace FeedBackPlatformWeb.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CreateCategory : IMigrationMetadata
+    public sealed partial class sq : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateCategory));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(sq));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808051442300_CreateCategory"; }
+            get { return "201808171206041_sq"; }
         }
         
         string IMigrationMetadata.Source

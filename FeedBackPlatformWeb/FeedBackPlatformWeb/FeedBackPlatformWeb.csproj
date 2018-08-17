@@ -196,15 +196,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808051442300_CreateCategory.cs" />
-    <Compile Include="Migrations\201808051442300_CreateCategory.Designer.cs">
-      <DependentUpon>201808051442300_CreateCategory.cs</DependentUpon>
+    <Compile Include="Migrations\201808171206041_sq.cs" />
+    <Compile Include="Migrations\201808171206041_sq.Designer.cs">
+      <DependentUpon>201808171206041_sq.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ClientProfile.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -380,8 +383,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808051442300_CreateCategory.resx">
-      <DependentUpon>201808051442300_CreateCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808171206041_sq.resx">
+      <DependentUpon>201808171206041_sq.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -6,13 +6,12 @@ using System.Web;
 
 namespace FeedBackPlatformWeb.Models
 {
-    public class Category
+    public class Question
     {
         [Key]
         public int Id { get; set; }
-        [MaxLength(20)]
-        public string Name { get; set; }
-
-        public List<Survey> Surveys { get; set; }
+        public string Description { get; set; }
+        //public List<Survey> Surveys { get; set; }
+        public List<Response> Responses { get; set; }
     }
 }

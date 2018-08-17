@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using FeedBackPlatformWeb.Models;
 using System.Data;
 using FeedBackPlatformWeb.Database;
+using System.Collections.Generic;
 
 namespace FeedBackPlatformWeb.Controllers
 {
@@ -352,17 +353,18 @@ namespace FeedBackPlatformWeb.Controllers
         public ActionResult CreateNewSurvey(Survey model)
         {
             DatabaseContext dbContext = new DatabaseContext();
-
+        
             var survey = new Survey
             {
                 Name = model.Name,
-                Category = new Category() { Id = model.Category.Id}
+                Category = model.Category,
+                CategoryId = model.Category.Id
             };
 
             dbContext.Surveys.Add(survey);
             dbContext.SaveChanges();
-
-            return View();
+            model.Id = survey.Id;
+            return View(model);
         }
         #endregion
 

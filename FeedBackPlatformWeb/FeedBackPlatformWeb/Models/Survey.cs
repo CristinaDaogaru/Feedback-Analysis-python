@@ -11,8 +11,11 @@ namespace FeedBackPlatformWeb.Models
     {
         [Key]
         public int Id { get; set; }
+        [MaxLength(20)]
         public string Name { get; set; }
-        [ForeignKey("Id")]
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
+        //public List<Question> Questions { get; set; }
+        //public List<ClientProfile> Clients { get; set; }
     }
 }

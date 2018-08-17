@@ -36,3 +36,22 @@ textarea {
     margin: inherit;
     text-align:center;
 }
+.questionInput{
+    width: 100%;
+}
+.createSurveyWell {
+    margin-top: 100px;
+
+}
+.createSurveyWell .input-group-btn .responseType {
+    display: inline;
+}
+.createSurveyWell .input-group-btn i {
+    padding-left:10px;
+}
+#divForAddQuestion {
+    text-align: center;
+}
+#divForSaveQuestion {
+    text-align: right;
+}

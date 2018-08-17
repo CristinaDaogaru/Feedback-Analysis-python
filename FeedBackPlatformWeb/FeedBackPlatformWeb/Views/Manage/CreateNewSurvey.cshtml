@@ -1,5 +1,33 @@
 ﻿@model FeedBackPlatformWeb.Models.Survey
 
-<div class="container-fluid text-center">
 
+<div class="createSurveyWell">
+    <div class="groove" id="divForAddQuestion">
+        <button type="button" class="btn btn-success" id="addQuestionButton"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Question</button>
+    </div>
+
+    <div class="well well-lg createSurveyWell" id="addQuestion" style="display:none">
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control createSurveyInput">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Multiple Choice <span class="caret"></span></button>
+                    <ul class="dropdown-menu pull-right">
+                        <li><i class="fa fa-list-ul"></i><a href="#" class="responseType">Multiple Choice</a></li>
+                        <li><i class="fa fa-check-square-o"></i><a href="#" class="responseType">Checkboxes</a></li>
+                        <li><i class="fa fa-comment"></i><a href="#" class="responseType">Comment box</a></li>
+                        <li><i class="material-icons">crop_16_9</i><a href="#" class="responseType">Text box</a></li>
+                        <li><i class="fa fa-star-o" aria-hidden="true"></i><a href="#" class="responseType">Rating</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <br />
+        <div id="divForSaveQuestion">
+            <button type="button" class="btn btn-success" id="saveQuestionButton">Save</button>
+        </div>
+    </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/createSurvey")
+}
