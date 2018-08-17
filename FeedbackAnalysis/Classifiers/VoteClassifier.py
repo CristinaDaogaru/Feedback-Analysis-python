@@ -3,10 +3,15 @@ from nltk.classify import ClassifierI
 from statistics import mode
 
 
-class VoteClassifier(ClassifierI):  # inherit form ClassifierI
+class VoteClassifier:  # inherit form ClassifierI
 
     def __init__(self, *classifiers):
         self.classifiers = classifiers
+
+
+    def SetNeuralNetwork(self, aNeuralNetwork, aText):
+        self.neuralNetwork = aNeuralNetwork
+        self.text = aText
 
 
     def classify(self, features):
@@ -14,6 +19,14 @@ class VoteClassifier(ClassifierI):  # inherit form ClassifierI
         for c in self.classifiers:
             v = c.classify(features)
             votes.append(v)
+
+        result = self.neuralNetwork.classify(self.text)
+
+        if result[0] != None or result[0][0] != None:
+            if result[0][0] == "positive":
+                votes.append("pos")
+            else:
+                votes.append("neg")
 
         return mode(votes)
 
@@ -30,6 +43,6 @@ class VoteClassifier(ClassifierI):  # inherit form ClassifierI
             votes.append(v)
 
         choise_votes = votes.count(mode(votes))
-        conf  = choise_votes / len(votes)
+        conf = choise_votes / len(votes)
 
         return conf

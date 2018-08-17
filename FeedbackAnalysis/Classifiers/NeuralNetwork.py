@@ -25,7 +25,7 @@ class NeuralNetwork:
         positiveWordsFilePath = "PositiveNegativeWords/positive-words.txt"
         negativeWordsFilePath = "PositiveNegativeWords/negative-words.txt"
 
-        positiveWordsTrainingData = TrainingDataCreator.Create(positiveWordsFilePath, "positive", 1000)
+        positiveWordsTrainingData = TrainingDataCreator.Create(positiveWordsFilePath, "positive", 2000)
         negativeWordsTrainingData = TrainingDataCreator.Create(negativeWordsFilePath, "negative", 1000)
 
         # Create data training with positive and negative sentences
@@ -135,7 +135,7 @@ class NeuralNetwork:
 
         start_time = time.time()
 
-        self.train(X, y, hidden_neurons=10, alpha=0.1, epochs=1000, dropout=True, dropout_percent=0.2)
+        self.train(X, y, hidden_neurons=10, alpha=0.1, epochs=1000, dropout=False, dropout_percent=0.2)
 
         elapsed_time = time.time() - start_time
         print("processing time:", elapsed_time, "seconds")
@@ -154,27 +154,27 @@ class NeuralNetwork:
             self.synapse_0 = np.asarray(synapse['synapse0'])
             self.synapse_1 = np.asarray(synapse['synapse1'])
 
-        self.classify("This movie was awesome!")
-        self.classify("Good job")
-        self.classify("this was a bad experience")
-        self.classify("very nice movie")
-        self.classify("bad decision")
-        self.classify("good enough")
-        print("\n\n")
-        self.classify("you make my day", show_details=True)
-
-        print("\n\n")
-
-        self.classify("This movie was awesome! The acting was great, plot was wonderful")
-
-        self.classify(
-            "This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10")
-
-        self.classify("This is good")
-
-        self.classify("This is not good")
-
-        print("\n\nFinish")
+        # self.classify("This movie was awesome!")
+        # self.classify("Good job")
+        # self.classify("this was a bad experience")
+        # self.classify("very nice movie")
+        # self.classify("bad decision")
+        # self.classify("good enough")
+        # print("\n\n")
+        # self.classify("you make my day", show_details=True)
+        #
+        # print("\n\n")
+        #
+        # self.classify("This movie was awesome! The acting was great, plot was wonderful")
+        #
+        # self.classify(
+        #     "This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10")
+        #
+        # self.classify("This is good")
+        #
+        # self.classify("This is not good")
+        #
+        # print("\n\nFinish")
 
 
     # compute sigmoid nonlinearity
@@ -318,5 +318,5 @@ class NeuralNetwork:
         results = [[i, r] for i, r in enumerate(results) if r > self.ERROR_THRESHOLD]
         results.sort(key=lambda x: x[1], reverse=True)
         return_results = [[self.classes[r[0]], r[1]] for r in results]
-        print("%s \n classification: %s" % (sentence, return_results))
+        #print("%s \n classification: %s" % (sentence, return_results))
         return return_results
