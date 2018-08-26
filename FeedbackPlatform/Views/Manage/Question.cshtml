@@ -1,0 +1,41 @@
+﻿@model FeedbackPlatform.Models.Question
+@{
+    Model.Response = new FeedbackPlatform.Models.Response();
+}
+<div class="createSurveyWell panel-body">
+    <div class="well well-lg" id="addQuestion" style="display:none">
+        <form class="add-question-form">
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control createSurveyInput", @id = "questionName", placeholder = "Enter your question" })
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span id="choiceCategory">Select Choice</span><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><i class="fa fa-list-ul"></i><a href="#MultipleChoice" class="responseType">Multiple Choice</a></li>
+                        <li><i class="fa fa-check-square-o"></i><a href="#Checkboxes" class="responseType">Checkboxes</a></li>
+                        <li><i class="fa fa-comment"></i><a href="#CommentBox" class="responseType">Comment box</a></li>
+                        <li><i class="fa fa-star-o"></i><a href="#Rating" class="responseType">Rating</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <br />
+        <form>
+            @Html.Partial("ResponseChoice/MultipleChoice", Model.Response)
+            @Html.Partial("ResponseChoice/Checkbox", Model.Response)
+            @Html.Partial("ResponseChoice/CommentBox", Model.Response)
+            @Html.Partial("ResponseChoice/Rating", Model.Response)
+            <br /><br /><br />
+            <div style="text-align:right">
+                <div id="divForCancelQuestion">
+                    <button type="button" class="btn btn-default" id="cancelQuestionButton">Cancel</button>
+                </div>
+                <div id="divForSaveQuestion">
+                    <button type="button" class="btn btn-success" id="saveQuestionButton">Save</button>
+                </div>
+            </div>
+        </form>
+        <br />
+    </div>
+</div>

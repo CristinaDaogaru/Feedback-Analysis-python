@@ -13,6 +13,6 @@ namespace FeedBackPlatformWeb.Models
         [MaxLength(20)]
         public string Name { get; set; }
 
-        public List<Survey> Surveys { get; set; }
+        public ICollection<Survey> Surveys { get; set; }
     }
 }

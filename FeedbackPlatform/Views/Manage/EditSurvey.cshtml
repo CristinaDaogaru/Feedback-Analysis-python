@@ -1,0 +1,20 @@
+﻿@model FeedbackPlatform.Models.Survey
+    @{ 
+        Model.Question = new FeedbackPlatform.Models.Question();
+    }
+
+<div class="panel panel-default createSurvey">
+    <div class="panel-heading" style="background-color:#3c9a3e; text-align:center">
+        <h3>@Model.Name</h3>
+    </div>
+   @Html.Partial("Question", Model.Question)
+    <div class="groove" id="divForAddQuestion">
+        <button type="button" class="btn btn-success" id="addQuestionButton"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Question</button>
+    </div>
+    <div class="groove" id="divForDone">
+        <button type="button" class="btn btn-success" id="doneButton">Done</button>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/createSurvey")
+}

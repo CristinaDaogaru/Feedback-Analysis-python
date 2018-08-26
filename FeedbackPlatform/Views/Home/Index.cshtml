@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="login-register-buttons">
+    <div class="text-container text-center">
+        <div class="btn-container">
+            <div class="small-btn-container">
+                <a href="@Url.Action("Register", "Account", new { id = "registerLink" })" type="button" class="btn btn-success left-btn">Register</a>
+                <a href="@Url.Action("Login", "Account", new { id = "loginLink" })" class="btn btn-success left-btn" data-order="2">Log in</a>
+            </div>
+        </div>
+    </div>
+</div>

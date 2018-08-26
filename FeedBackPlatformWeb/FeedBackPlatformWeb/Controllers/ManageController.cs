@@ -353,12 +353,11 @@ namespace FeedBackPlatformWeb.Controllers
         public ActionResult CreateNewSurvey(Survey model)
         {
             DatabaseContext dbContext = new DatabaseContext();
-        
+            var userId = User.Identity.GetUserId();
             var survey = new Survey
             {
                 Name = model.Name,
-                Category = model.Category,
-                CategoryId = model.Category.Id
+                CategoryId = model.CategoryId
             };
 
             dbContext.Surveys.Add(survey);

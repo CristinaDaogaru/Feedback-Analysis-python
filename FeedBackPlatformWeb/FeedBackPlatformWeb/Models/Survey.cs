@@ -15,6 +15,8 @@ namespace FeedBackPlatformWeb.Models
         public string Name { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public int ClientId { get; set; }
+        public ClientProfile Client { get; set; }
         //public List<Question> Questions { get; set; }
         //public List<ClientProfile> Clients { get; set; }
     }

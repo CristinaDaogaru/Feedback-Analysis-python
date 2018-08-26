@@ -1,0 +1,56 @@
+﻿@model FeedbackPlatform.Models.Survey
+@{
+    FeedbackPlatform.Database.DatabaseContext dbContext = new FeedbackPlatform.Database.DatabaseContext();
+    var data = dbContext.Categories;
+
+    var id = Request.QueryString["clientId"];
+
+    var items = data.Select(i => new SelectListItem
+    {
+        Value = i.Id.ToString(),
+        Text = i.Name,
+        Selected = i.Id == 1 ? true : false
+    });
+}
+
+<div class="createSurveyWell panel-body">
+    <div class="createSurveyModal">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create new Survey</button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    @using (Html.BeginForm("CreateNewSurvey", "Manage", new { @class = "form-horizontal", role = "form" }, FormMethod.Post))
+                    {
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Create new survey</h4>
+                        </div>
+                        <div class="modal-body">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <label for="usr">Name:</label>
+                                @Html.Hidden("ClientId", int.Parse(id))
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control createSurveyInput", @id = "surveyName" })
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Select category:</label>
+                                @Html.DropDownListFor(m => m.CategoryId, items, new { @class = "form-control createSurveyInput", @id = "category" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="modal-footer">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

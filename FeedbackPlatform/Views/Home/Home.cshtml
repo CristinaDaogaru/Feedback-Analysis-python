@@ -1,0 +1,23 @@
+﻿@model FeedbackPlatform.Models.SurveyModelControl
+@{
+    FeedbackPlatform.Database.DatabaseContext dbContext = new FeedbackPlatform.Database.DatabaseContext();
+    var data = dbContext.Categories;
+
+    var id = Request.QueryString["clientId"];
+
+    var items = data.Select(i => new SelectListItem
+    {
+        Value = i.Id.ToString(),
+        Text = i.Name,
+        Selected = i.Id == 1 ? true : false
+    });
+}
+<div class="panel panel-default createSurvey">
+
+    @Html.Partial("CreateNewSurveyModal", Model.Survey)
+    @Html.Partial("SurveyListPartial",Model)
+
+</div>
+@*@section Scripts {
+        @Scripts.Render("~/bundles/createSurvey")
+    }*@
