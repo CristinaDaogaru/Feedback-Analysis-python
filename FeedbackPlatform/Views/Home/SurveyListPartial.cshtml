@@ -1,0 +1,28 @@
+﻿@model FeedbackPlatform.Models.SurveyModelControl
+
+<div class="survey-list">
+    <ul class="list-group">
+        @foreach (var survey in Model.Surveys)
+        {
+            <li class="list-group-item ridge survey-row">
+                <div class="row">
+                    <div class="col-sm-4">
+                        @survey.Name
+                    </div>
+                    <div class="col-sm-4">
+                        <p style="text-align:center">@Model.QuestionNumber</p>
+                        <p style="text-align:center">Question</p>
+                    </div>
+                    <div class="col-sm-4 survey-action-buttons">
+                        <a href="@Url.Action("EditSurvey","Manage", new {surveyId = survey.Id,  clientId =survey.ClientId })" class="edit-survey">
+                            <img src="~/Content/img/icon-edit.png">
+                        </a>
+                        <a href="" class="delete-survey">
+                            <img src="~/Content/img/icon-delete.png">
+                        </a>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

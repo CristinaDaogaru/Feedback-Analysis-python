@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: darkgray;
+    background-color: white;
 }
 
 .login-register-buttons {
@@ -35,4 +35,35 @@ textarea {
 .createSurveyModal #myModal .modal-dialog {
     margin: inherit;
     text-align:center;
+}
+.questionInput{
+    width: 100%;
+}
+.createSurvey {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.createSurveyWell {
+    /*margin-top: 100px;
+    margin-bottom:100px;*/
+    margin: 100px;
+}
+.createSurveyWell .input-group-btn .responseType {
+    display: inline;
+}
+.createSurveyWell .input-group-btn i {
+    padding-left:10px;
+}
+#divForAddQuestion {
+    text-align: center;
+    margin-bottom: 50px;
+}
+#divForSaveQuestion {
+    text-align: right;
+}
+
+#divForDone {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
 }

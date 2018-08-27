@@ -10,6 +10,9 @@ namespace FeedBackPlatformWeb.Models
     {
         [Key]
         public int Id { get; set; }
+        [MaxLength(20)]
         public string Name { get; set; }
+
+        public ICollection<Survey> Surveys { get; set; }
     }
 }

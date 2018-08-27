@@ -1,0 +1,25 @@
+﻿@model FeedbackPlatform.Models.Response
+
+<div id="multipleChoice" class="ridge" style="display:none">
+    <table>
+        <tr class="row">
+            <td class="checkBox-for-response">
+                <label class="checkmark-label"><input type="radio" class="checkmark" value="" disabled></label>
+            </td>
+            <td class="input-for-response"> @Html.TextBoxFor(m => m.Content, new { @class = "form-control createSurveyInput", placeholder = "Enter an answer choice" })</td>
+            <td class="delete-response">
+
+                <button class="delete-response-multipleChoice"><img src="~/Content/img/icon-minus.png"></button>
+
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div style="text-align:right">
+        <button class="btn btn-success add-response-multipleChoice"><i class="fa fa-plus-circle" style="padding-right:3px"></i>Add</button>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/createSurvey")
+}

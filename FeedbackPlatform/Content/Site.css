@@ -1,0 +1,117 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: white;
+}
+
+.login-register-buttons {
+    padding-top: 200px;
+    padding-bottom: 20px;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input:not(.createSurveyInput),
+select:not(.createSurveyInput),
+textarea:not(.createSurveyInput) {
+    max-width: 280px;
+}
+
+.createSurveyModal {
+    text-align: center;
+}
+
+.createSurveyModal #myModal .modal-dialog {
+    margin: inherit;
+    text-align:center;
+}
+.questionInput{
+    width: 100%;
+}
+.createSurvey {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background-color: #f6f6f6;
+}
+.createSurveyWell {
+    margin-top: 100px;
+    margin-bottom:100px;
+}
+.createSurveyWell .input-group-btn .responseType {
+    display: inline;
+}
+.createSurveyWell .input-group-btn i {
+    padding-left:10px;
+}
+#divForAddQuestion {
+    text-align: center;
+    margin-bottom: 50px;
+}
+#divForSaveQuestion {
+    display: inline;
+}
+#divForCancelQuestion {
+    display:inline;
+}
+
+#divForDone {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.survey-list .survey-action-buttons {
+    float:right;
+    text-align:right;
+}
+.survey-list .survey-row{
+    margin-bottom:10px;
+}
+.container-question {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    height: 25px;
+    width: 25px;
+}
+.checkmark-label {
+    margin-top: 13px;
+    padding-right: 10px;
+}
+
+.createSurveyWell .checkBox-for-response {
+    padding-bottom:10px;
+}
+.createSurveyWell .input-for-response {
+    width: 100%;
+}
+.createSurveyWell .add-question-form{
+    margin-top:20px;
+}
+.icon-plus {
+    background-image: url("./img/icon-plus.png")
+}
+.icon-minus {
+    background-image: url("./img/icon-minus.png")
+}

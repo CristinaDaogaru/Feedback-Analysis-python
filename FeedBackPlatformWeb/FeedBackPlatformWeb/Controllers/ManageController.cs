@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FeedBackPlatformWeb.Models;
 using System.Data;
+using FeedBackPlatformWeb.Database;
+using System.Collections.Generic;
 
 namespace FeedBackPlatformWeb.Controllers
 {
@@ -341,14 +343,27 @@ namespace FeedBackPlatformWeb.Controllers
 
         #region Added by Me
 
-        public ActionResult CreateSurvey()
+        public ActionResult SurveyAddQuestion(int surveyId)
         {
+            DatabaseContext dbContext = new DatabaseContext();
+            
             return View();
         }
+        [HttpPost]
+        public ActionResult CreateNewSurvey(Survey model)
+        {
+            DatabaseContext dbContext = new DatabaseContext();
+            var userId = User.Identity.GetUserId();
+            var survey = new Survey
+            {
+                Name = model.Name,
+                CategoryId = model.CategoryId
+            };
 
-        public ActionResult CreateNewSurvey(string name, string category) { 
-
-            return View();
+            dbContext.Surveys.Add(survey);
+            dbContext.SaveChanges();
+            model.Id = survey.Id;
+            return View(model);
         }
         #endregion
 
