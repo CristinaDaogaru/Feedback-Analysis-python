@@ -3,7 +3,7 @@ namespace FeedBackPlatformWeb.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class sq : DbMigration
+    public partial class m1 : DbMigration
     {
         public override void Up()
         {
@@ -23,19 +23,22 @@ namespace FeedBackPlatformWeb.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(maxLength: 20),
                         CategoryId = c.Int(nullable: false),
+                        ClientId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ClientProfiles", t => t.ClientId, cascadeDelete: true)
                 .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
-                .Index(t => t.CategoryId);
+                .Index(t => t.CategoryId)
+                .Index(t => t.ClientId);
             
             CreateTable(
                 "dbo.ClientProfiles",
                 c => new
                     {
                         IdClient = c.Int(nullable: false, identity: true),
-                        Name = c.String(maxLength: 20),
-                        Email = c.String(),
-                        Password = c.String(nullable: false, maxLength: 100),
+                        Name = c.String(nullable: false, maxLength: 20),
+                        Email = c.String(nullable: false),
+                        Password = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.IdClient);
             
@@ -67,7 +70,9 @@ namespace FeedBackPlatformWeb.Migrations
         {
             DropForeignKey("dbo.Responses", "QuestionId", "dbo.Questions");
             DropForeignKey("dbo.Surveys", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.Surveys", "ClientId", "dbo.ClientProfiles");
             DropIndex("dbo.Responses", new[] { "QuestionId" });
+            DropIndex("dbo.Surveys", new[] { "ClientId" });
             DropIndex("dbo.Surveys", new[] { "CategoryId" });
             DropTable("dbo.Responses");
             DropTable("dbo.Questions");
