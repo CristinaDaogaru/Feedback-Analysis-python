@@ -7,7 +7,7 @@ class VoteClassifier:  # inherit form ClassifierI
 
     def __init__(self, *classifiers):
         self.classifiers = classifiers
-
+        self.neuralNetwork = None
 
     def SetNeuralNetwork(self, aNeuralNetwork, aText):
         self.neuralNetwork = aNeuralNetwork
@@ -20,13 +20,14 @@ class VoteClassifier:  # inherit form ClassifierI
             v = c.classify(features)
             votes.append(v)
 
-        result = self.neuralNetwork.classify(self.text)
+        if self.neuralNetwork != None:
+            result = self.neuralNetwork.classify(self.text)
 
-        if result[0] != None or result[0][0] != None:
-            if result[0][0] == "positive":
-                votes.append("pos")
-            else:
-                votes.append("neg")
+            if result[0] != None or result[0][0] != None:
+                if result[0][0] == "positive":
+                    votes.append("pos")
+                else:
+                    votes.append("neg")
 
         return mode(votes)
 
