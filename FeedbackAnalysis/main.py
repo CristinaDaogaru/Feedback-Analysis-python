@@ -182,7 +182,7 @@ def main():
 
     print("Linear SVC classifier accuracy percent: ", (linearSVCClassifier.Accuracy(testingSet)))
 
-    pickleHandler.Save(SGDClassifie.GetClassifier(), "PickleFiles/linearSVCClassifier.pickle", "wb")
+    pickleHandler.Save(linearSVCClassifier.GetClassifier(), "PickleFiles/linearSVCClassifier.pickle", "wb")
 
 
     # END REGION
@@ -228,13 +228,14 @@ def main():
     voteClassifier = VoteClassifier(nltkNaiveBayesClassifier.GetClassifier(),
                                     multinomialNaiveBayesClassifie.GetClassifier(),
                                     bernoulliNaiveBayesClassifie.GetClassifier(),
-                                    #logisticRegressionClassifie.GetClassifier(),
-                                    SGDClassifie.GetClassifier(),
+                                    logisticRegressionClassifie.GetClassifier(),
+                                    #SGDClassifie.GetClassifier(),
                                     linearSVCClassifier.GetClassifier(),
                                     nuSVCClassifier.GetClassifier())
 
     moviePositiveReview = "The new school is nice. The teachers seem prepared. The colleagues are very polite. I will integrate myself perfectly here. I think all will be just fine."
     movieNegativeReview = "The new school is looks nice but the teachers are rude . The colleagues are rude too. I don't think I will integrate very well. Probably I will move back to my old schoold."
+
 
 
     voteClassifier.SetNeuralNetwork(neuralNetwork, moviePositiveReview)
@@ -244,6 +245,7 @@ def main():
 
 
     wordFeatures = pickleHandler.Load("PickleFiles/wordFeatures.pickle", "rb")
+
 
     sentiment = Sentiment(voteClassifier, wordFeatures)
 
