@@ -11,4 +11,4 @@ class Sentiment:
     def FindSentiment(self, text):
 
         features = self.featureSet.FindFeatures(text)
-        return self.votedClassifier.classify(features), self.votedClassifier.confidence(features)
+        return self.votedClassifier.classify(features) #, self.votedClassifier.confidence(features)

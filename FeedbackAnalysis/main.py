@@ -2,8 +2,10 @@ import random
 import nltk
 
 from Classifiers.MultinomialNaiveBayesClassifier import MultinomialNaiveBayesClassifier
+from Classifiers.NeuralNetwork import NeuralNetwork
 from FeatureSet import FeatureSet
 from Helpers.FileReader import FileReader
+from Sentiment import Sentiment
 from WordTokenizer import WordTokenizer
 from Helpers.CollectionIntervalSplitter import CollectionIntervalSplitter
 from Helpers.DocumentHandler import DocumentHandler
@@ -21,6 +23,7 @@ from Classifiers.LogisticRegressionClassifier import LogisticRegressionClassifie
 
 
 def main():
+
 
     # TODO : Refactor DocumentHandler class based on the fallowing code
 
@@ -135,7 +138,7 @@ def main():
 
     # REGION Print the Bernoulli Naive Bayes classifier accuracy
 
-    bernoulliNaiveBayesClassifie = MultinomialNaiveBayesClassifier()
+    bernoulliNaiveBayesClassifie = BernoulliNaiveBayesClassifier()
     bernoulliNaiveBayesClassifie.Train(trainingSet)
 
     print("Bernouli Naive Bayes classifier accuracy percent: ", (bernoulliNaiveBayesClassifie.Accuracy(testingSet)))
@@ -148,7 +151,7 @@ def main():
 
     # REGION Print the Logistic Regression classifier accuracy
 
-    logisticRegressionClassifie = MultinomialNaiveBayesClassifier()
+    logisticRegressionClassifie = LogisticRegressionClassifier()
     logisticRegressionClassifie.Train(trainingSet)
 
     print("Logistic Regression classifier accuracy percent: ", (logisticRegressionClassifie.Accuracy(testingSet)))
@@ -161,7 +164,7 @@ def main():
 
     # REGION Print the SGD classifier accuracy
 
-    SGDClassifie = MultinomialNaiveBayesClassifier()
+    SGDClassifie = SGDClassifier()
     SGDClassifie.Train(trainingSet)
 
     print("SGD classifier accuracy percent: ", (SGDClassifie.Accuracy(testingSet)))
@@ -179,7 +182,7 @@ def main():
 
     print("Linear SVC classifier accuracy percent: ", (linearSVCClassifier.Accuracy(testingSet)))
 
-    pickleHandler.Save(SGDClassifie.GetClassifier(), "PickleFiles/linearSVCClassifier.pickle", "wb")
+    pickleHandler.Save(linearSVCClassifier.GetClassifier(), "PickleFiles/linearSVCClassifier.pickle", "wb")
 
 
     # END REGION
@@ -198,23 +201,75 @@ def main():
     # END REGION
 
 
+
+    # REGION Print the Neural Network result
+
+    neuralNetwork = NeuralNetwork()
+    neuralNetwork.TrainNetwork()
+
+
+    #a = neuralNetwork.classify("Good movie")
+
+    # print("Print entire result : %s", a)
+    # print('\n')
+    # print("print first component : %s ", a[0][0])
+    # print('\n')
+    # print("print second component : %s ", a[0][1])
+    # print("\n")
+
+
+    # END REGION
+
+
+
+
     # REGION Print the Voted classifier accuracy
 
     voteClassifier = VoteClassifier(nltkNaiveBayesClassifier.GetClassifier(),
                                     multinomialNaiveBayesClassifie.GetClassifier(),
                                     bernoulliNaiveBayesClassifie.GetClassifier(),
                                     logisticRegressionClassifie.GetClassifier(),
-                                    SGDClassifie.GetClassifier(),
+                                    #SGDClassifie.GetClassifier(),
                                     linearSVCClassifier.GetClassifier(),
                                     nuSVCClassifier.GetClassifier())
 
-    print("Vote classifier accuracy percent: ", (voteClassifier.Accuracy(testingSet)))
+    moviePositiveReview = "The new school is nice. The teachers seem prepared. The colleagues are very polite. I will integrate myself perfectly here. I think all will be just fine."
+    movieNegativeReview = "The new school is looks nice but the teachers are rude . The colleagues are rude too. I don't think I will integrate very well. Probably I will move back to my old schoold."
+
+
+
+    voteClassifier.SetNeuralNetwork(neuralNetwork, moviePositiveReview)
+
+
+    #print("Vote classifier accuracy percent: ", (voteClassifier.Accuracy(testingSet)))
+
+
+    wordFeatures = pickleHandler.Load("PickleFiles/wordFeatures.pickle", "rb")
+
+
+    sentiment = Sentiment(voteClassifier, wordFeatures)
+
+
+    result = sentiment.FindSentiment(moviePositiveReview)
+
+
+    print("\n\nSentence : %s\nResult : %s\n\n" % (moviePositiveReview, result))
+
+
+    voteClassifier.SetNeuralNetwork(neuralNetwork, movieNegativeReview)
+    result = sentiment.FindSentiment(movieNegativeReview)
+
+    print("\n\n!!!! Sentence : %s\nResult : %s\n\n" % (movieNegativeReview, result))
+
+
+
+    # print(sentiment.FindSentiment(
+    #     "This movie was awesome! The acting was great, plot was wonderful, and there were pythons...so yea!"))
+    # print(sentiment.FindSentiment(
+    #     "This movie was utter junk. There were absolutely 0 pythons. I don't see what the point was at all. Horrible movie, 0/10"))
 
     # END REGION
 
 
 if __name__ == '__main__':
     main()
-
-
-
