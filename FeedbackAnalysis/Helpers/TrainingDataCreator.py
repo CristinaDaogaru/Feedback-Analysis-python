@@ -1,3 +1,4 @@
+import random
 from Helpers.FileReader import FileReader
 
 
@@ -8,6 +9,8 @@ class TrainingDataCreator:
         trainingData = []
         fileReader = FileReader()
         positiveWords = fileReader.ReadLines(filePath)
+
+        random.shuffle(positiveWords)
 
         for index in range(0, numberOfElements):
             trainingData.append({"class": reviewClass, "sentence": positiveWords[index]})

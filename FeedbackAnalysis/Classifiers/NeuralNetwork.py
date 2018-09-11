@@ -16,7 +16,7 @@ class NeuralNetwork:
         self.stemmer = LancasterStemmer()
 
 
-    def TrainNetwork(self):
+    def TrainNetwork(self, dataLength, addPositiveNegativeWords=False, hidden_neurons=10, alpha=0.1, epochs=1000, dropout=False, dropout_percent=0.2):
 
         self.stemmer = LancasterStemmer()
 
@@ -25,16 +25,16 @@ class NeuralNetwork:
         positiveWordsFilePath = "PositiveNegativeWords/positive-words.txt"
         negativeWordsFilePath = "PositiveNegativeWords/negative-words.txt"
 
-        positiveWordsTrainingData = TrainingDataCreator.Create(positiveWordsFilePath, "positive", 2000)
-        negativeWordsTrainingData = TrainingDataCreator.Create(negativeWordsFilePath, "negative", 1000)
+        positiveWordsTrainingData = TrainingDataCreator.Create(positiveWordsFilePath, "positive", 2006)
+        negativeWordsTrainingData = TrainingDataCreator.Create(negativeWordsFilePath, "negative", 2783)
 
         # Create data training with positive and negative sentences
 
         positiveReviewsFilePath = "short_reviews/positiveShort"
         negativeReviewsFilePath = "short_reviews/negativeShort"
 
-        positiveReviewsTrainingData = TrainingDataCreator.Create(positiveReviewsFilePath, "positive", 1000)
-        negativeReviewsTrainingData = TrainingDataCreator.Create(negativeReviewsFilePath, "negative", 1000)
+        positiveReviewsTrainingData = TrainingDataCreator.Create(positiveReviewsFilePath, "positive", int(dataLength/2))
+        negativeReviewsTrainingData = TrainingDataCreator.Create(negativeReviewsFilePath, "negative", int(dataLength/2))
 
         # 2 classes of training data
         training_data = []
@@ -43,7 +43,10 @@ class NeuralNetwork:
         training_data.append({"class": "positive", "sentence": "I like it"})
         training_data.append({"class": "positive", "sentence": "Better now"})
 
-        training_data += positiveWordsTrainingData
+
+        if addPositiveNegativeWords == True:
+            training_data += positiveWordsTrainingData
+
         training_data += positiveReviewsTrainingData
 
         training_data.append({"class": "negative", "sentence": "I don't like it"})
@@ -51,7 +54,9 @@ class NeuralNetwork:
         training_data.append({"class": "negative", "sentence": "Very bad"})
         training_data.append({"class": "negative", "sentence": "This is not good"})
 
-        training_data += negativeWordsTrainingData
+        if addPositiveNegativeWords == True:
+            training_data += negativeWordsTrainingData
+
         training_data += negativeReviewsTrainingData
 
         # with open('synapses.json') as json_file:
@@ -135,7 +140,7 @@ class NeuralNetwork:
 
         start_time = time.time()
 
-        self.train(X, y, hidden_neurons=10, alpha=0.1, epochs=1000, dropout=False, dropout_percent=0.2)
+        self.train(X, y, hidden_neurons, alpha, epochs, dropout, dropout_percent)
 
         elapsed_time = time.time() - start_time
         print("processing time:", elapsed_time, "seconds")
@@ -211,17 +216,7 @@ class NeuralNetwork:
 
         return (np.array(bag))
 
-    def think(self, sentence, show_details=False):
-        x = self.bow(sentence.lower(), self.words, show_details)
-        if show_details:
-            print("sentence:", sentence, "\n bow:", x)
-        # input layer is our bag of words
-        l0 = x
-        # matrix multiplication of input and hidden layer
-        l1 = self.sigmoid(np.dot(l0, self.synapse_0))
-        # output layer
-        l2 = self.sigmoid(np.dot(l1, self.synapse_1))
-        return l2
+
 
     # in 6
 
@@ -314,9 +309,20 @@ class NeuralNetwork:
     def classify(self, sentence, show_details=False):
 
         results = self.think(sentence, show_details)
-
         results = [[i, r] for i, r in enumerate(results) if r > self.ERROR_THRESHOLD]
         results.sort(key=lambda x: x[1], reverse=True)
         return_results = [[self.classes[r[0]], r[1]] for r in results]
         #print("%s \n classification: %s" % (sentence, return_results))
         return return_results
+
+    def think(self, sentence, show_details=False):
+        x = self.bow(sentence.lower(), self.words, show_details)
+        if show_details:
+            print("sentence:", sentence, "\n bow:", x)
+        # input layer is our bag of words
+        l0 = x
+        # matrix multiplication of input and hidden layer
+        l1 = self.sigmoid(np.dot(l0, self.synapse_0))
+        # output layer
+        l2 = self.sigmoid(np.dot(l1, self.synapse_1))
+        return l2

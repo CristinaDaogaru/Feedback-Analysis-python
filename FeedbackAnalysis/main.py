@@ -29,22 +29,27 @@ def main():
 
     # REGION Get Documents
 
-
     shortPositiveReviewsPath = "short_reviews/positive.txt"
     shortNegativeReviewsPath = "short_reviews/negative.txt"
 
+    positiveWordsPath = "PositiveNegativeWords/positive-words.txt"
+    negativeWordsPath = "PositiveNegativeWords/negative-words.txt"
 
     fileReader = FileReader()
 
     positiveReviews = fileReader.ReadToEnd(shortPositiveReviewsPath, "r")
     negativeReviews = fileReader.ReadToEnd(shortNegativeReviewsPath, "r")
 
+    positiveWords = fileReader.ReadToEnd(positiveWordsPath, "r")
+    negativeWords = fileReader.ReadToEnd(negativeWordsPath, "r")
 
     documentHandler = DocumentHandler()
 
     positiveDocumentsReview = documentHandler.GetPositiveDocumets(positiveReviews)
-    negativeDocumentsReview = documentHandler.GetNegativeDocumets(negativeReviews)
+    positiveDocumentsReview += documentHandler.GetPositiveDocumets(positiveWords)
 
+    negativeDocumentsReview = documentHandler.GetNegativeDocumets(negativeReviews)
+    negativeDocumentsReview += documentHandler.GetNegativeDocumets(negativeWords)
 
     documents = []
     documents = documents + positiveDocumentsReview
@@ -205,7 +210,7 @@ def main():
     # REGION Print the Neural Network result
 
     neuralNetwork = NeuralNetwork()
-    neuralNetwork.TrainNetwork()
+    neuralNetwork.TrainNetwork(dataLength=1000, hidden_neurons=20, alpha=0.1, epochs=1000, dropout=False, dropout_percent=0.2)
 
 
     #a = neuralNetwork.classify("Good movie")
