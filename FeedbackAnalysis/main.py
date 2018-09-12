@@ -210,7 +210,7 @@ def main():
     # REGION Print the Neural Network result
 
     neuralNetwork = NeuralNetwork()
-    neuralNetwork.TrainNetwork(dataLength=1000, hidden_neurons=20, alpha=0.1, epochs=1000, dropout=False, dropout_percent=0.2)
+    neuralNetwork.TrainNetwork(dataLength=1000, addPositiveNegativeWords=False, hidden_neurons=20, alpha=0.1, epochs=1000, dropout=False, dropout_percent=0.2)
 
 
     #a = neuralNetwork.classify("Good movie")
